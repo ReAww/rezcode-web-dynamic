@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   CUSTOM PROPERTIES
+============================================================ */
+@layer base {
+    :root {
+        --color-brand-cyan: #06b6d4;
+        --color-brand-blue: #3b82f6;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Inter", system-ui, sans-serif;
+        background-color: #030712;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+/* ============================================================
+   COMPONENT CLASSES
+============================================================ */
+@layer components {
+    /* --- Buttons --- */
+    .btn-primary {
+        @apply inline-flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-600
+               text-white font-semibold rounded-xl px-6 py-3 transition-all duration-300
+               hover:from-cyan-400 hover:to-blue-500 hover:shadow-lg hover:shadow-cyan-500/25
+               hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2
+               focus:ring-cyan-500 focus:ring-offset-2 focus:ring-offset-gray-950;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center bg-gray-800/60 border border-gray-700
+               text-gray-300 font-semibold rounded-xl px-6 py-3 transition-all duration-300
+               hover:bg-gray-700/60 hover:text-white hover:border-gray-600
+               hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2
+               focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-950;
+    }
+
+    /* --- Navigation --- */
+    .nav-link {
+        @apply text-sm font-medium text-gray-400 hover:text-white transition-colors duration-200
+               relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5
+               after:bg-gradient-to-r after:from-cyan-500 after:to-blue-500
+               after:transition-all after:duration-300 hover:after:w-full pb-0.5;
+    }
+
+    .footer-link {
+        @apply text-sm text-gray-500 hover:text-gray-300 transition-colors duration-200;
+    }
+
+    .social-link {
+        @apply w-9 h-9 rounded-xl bg-gray-800/60 border border-gray-700/60 flex items-center justify-center
+               text-gray-400 hover:text-cyan-400 hover:bg-gray-700/60 hover:border-cyan-500/30
+               transition-all duration-200;
+    }
+
+    /* --- Forms --- */
+    .form-input {
+        @apply w-full bg-gray-800/60 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm
+               placeholder-gray-500 transition-all duration-200
+               focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20
+               hover:border-gray-600;
+    }
+
+    /* --- Cards --- */
+    .glass-card {
+        @apply bg-gray-900/60 backdrop-blur-sm border border-gray-800 rounded-2xl p-6
+               transition-all duration-300 hover:border-gray-700 hover:bg-gray-900/80
+               hover:shadow-xl hover:shadow-black/20 hover:-translate-y-1;
+    }
+
+    .value-card {
+        @apply bg-gray-900/60 border border-gray-800 rounded-2xl p-4 transition-all duration-200
+               hover:border-gray-700;
+    }
+
+    /* --- Admin Components --- */
+    .admin-card {
+        @apply bg-gray-900/60 border border-gray-800 rounded-2xl p-6;
+    }
+
+    .stat-card {
+        @apply bg-gray-900/60 border border-gray-800 rounded-2xl p-5 transition-all duration-300
+               hover:border-gray-700 hover:bg-gray-900/80 hover:-translate-y-0.5;
+    }
+
+    .admin-nav-link {
+        @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-400
+               hover:text-white hover:bg-gray-800 transition-all duration-200;
+    }
+
+    .admin-nav-link.active {
+        @apply text-white bg-gradient-to-r from-cyan-500/20 to-blue-500/10 border border-cyan-500/20;
+    }
+
+    /* --- Service Icon --- */
+    .service-icon-wrapper {
+        @apply transition-transform duration-300;
+    }
+
+    /* --- Gradient Text --- */
+    .gradient-text {
+        @apply bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent;
+    }
+}
+
+/* ============================================================
+   HERO BACKGROUND EFFECTS
+============================================================ */
+.hero-glow-1 {
+    position: absolute;
+    top: 20%;
+    left: 15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+        circle,
+        rgba(6, 182, 212, 0.08) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulse-glow 6s ease-in-out infinite;
+}
+
+.hero-glow-2 {
+    position: absolute;
+    bottom: 20%;
+    right: 15%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(
+        circle,
+        rgba(59, 130, 246, 0.06) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulse-glow 8s ease-in-out infinite reverse;
+}
+
+.about-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+        circle,
+        rgba(139, 92, 246, 0.04) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+/* ============================================================
+   PARTICLES
+============================================================ */
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(6, 182, 212, 0.5);
+    border-radius: 50%;
+    animation: float-up linear infinite;
+    bottom: -10px;
+}
+
+@keyframes float-up {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(30px);
+        opacity: 0;
+    }
+}
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+@keyframes pulse-glow {
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+/* Scroll Reveal */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+.reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for children */
+.reveal:nth-child(1) {
+    transition-delay: 0ms;
+}
+.reveal:nth-child(2) {
+    transition-delay: 100ms;
+}
+.reveal:nth-child(3) {
+    transition-delay: 200ms;
+}
+.reveal:nth-child(4) {
+    transition-delay: 300ms;
+}
+
+/* ============================================================
+   SCROLLBAR
+============================================================ */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* ============================================================
+   PAGINATION (Tailwind Breeze override)
+============================================================ */
+nav[aria-label="Pagination Navigation"] span,
+nav[aria-label="Pagination Navigation"] a {
+    @apply bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white;
+}
