@@ -40,11 +40,11 @@ RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage \
     && chmod -R 775 /var/www/bootstrap/cache
 
-# Copgy Nginx config
-COPY .fly/nginx.conf /etc/nginx/sites-available/default
+# Copy Nginx config
+COPY .docker/nginx.conf /etc/nginx/sites-available/default
 
 # Copy Supervisor config
-COPY .fly/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY .docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Expose port 8080
 EXPOSE 8080

@@ -1,89 +1,66 @@
-# Deploying Rezcode for Free
+# Deploying Rezcode (Free Tier)
 
-Since Rezcode is a modern **Laravel 12** application with **Vite** (Node.js) and a **MySQL** database, "classic" free hosting (like 000webhost) often struggles.
+Since Rezcode is a modern **Laravel 12** application with **Vite** (Node.js) and a **MySQL** database, we need a platform that supports **Docker** containers.
 
-Here are the two best paths for free deployment:
+**Current Setup:**
+
+- **Docker Config:** Located in `.docker/` (nginx & supervisord)
+- **Dockerfile:** Ready for production (PHP 8.2 + Nginx)
 
 ---
 
-## Option 1: Fly.io (Recommended - Modern & Fast) ✨
+## Option 1: Render.com (Recommended - No Credit Card) ✨
 
-**Best for:** Professional deployment, automated builds (Docker), easy updates.
-**Requirement:** A credit card (for identity verification only — the free tier is generous).
+**Best for:** Easy start, no credit card required.
+**Limitation:** Free web services spin down after inactivity (slow first request).
 
 ### Steps:
 
-1.  **Sign Up & Install CLI**
-    - Sign up at [fly.io](https://fly.io)
-    - Install the Fly CLI (PowerShell):
-        ```powershell
-        pwsh -Command "iwr https://fly.io/install.ps1 -useb | iex"
-        ```
-    - Restart your terminal.
-    - Log in: `fly auth login`
+1.  **Push Code to GitHub**
+    - Create a repository on GitHub.
+    - Push your `rezcode-web` code to it.
 
-2.  **Launch the App**
-    - Run inside your project folder:
-        ```bash
-        fly launch
-        ```
-    - Follow the prompts:
-        - **Name:** `rezcode-web` (or unique name)
-        - **Region:** Choose one close to you (e.g., `sin` for Singapore)
-        - **Database:** Yes, set up a **Redis** (optional) and **MySQL** database.
-            - _Note: Fly's free tier for MySQL is limited. You might prefer sticking to SQLite for a simpler free project._
-        - **Deploy now?** No (we need to check config first).
+2.  **Create Database (PostgreSQL)**
+    - Go to [dashboard.render.com](https://dashboard.render.com) -> New -> **PostgreSQL**.
+    - **Name:** `rezcode-db`
+    - **Region:** Southeast Asia (Singapore)
+    - **Plan:** Free
+    - **Create Database.**
+    - _Copy the `Internal DB URL` specific for internal use._
 
-3.  **Configure for Free Tier**
-    - Open `fly.toml` generated in your folder.
-    - Ensure `vm.size` is `shared-cpu-1x` and `256mb` RAM (free tier limits).
+3.  **Create Web Service**
+    - Go to Dashboard -> New -> **Web Service**.
+    - Connect your GitHub repo.
+    - **Name:** `rezcode-web`
+    - **Region:** Same as DB (Singapore).
+    - **Runtime:** **Docker** (Important!).
+    - **Plan:** Free.
 
-4.  **Deploy**
-    ```bash
-    fly deploy
-    ```
+4.  **Environment Variables (Advanced)**
+    - In the Web Service settings, add these variables:
+        - `APP_KEY`: (Copy from your local .env)
+        - `APP_URL`: `https://rezcode-web.onrender.com` (your Render URL)
+        - `DB_CONNECTION`: `pgsql` (Render uses Postgres for free tier)
+        - `DB_HOST`: (Hostname from Internal DB URL)
+        - `DB_PORT`: `5432`
+        - `DB_DATABASE`: (Database name from Internal DB URL)
+        - `DB_USERNAME`: (User from Internal DB URL)
+        - `DB_PASSWORD`: (Password from Internal DB URL)
+        - `LOG_CHANNEL`: `stderr`
 
-    - Fly will build your Docker image remotely and deploy it.
-
----
-
-## Option 2: Render.com (Alternative - No Credit Card)
-
-**Best for:** If you don't have a credit card.
-**Limitation:** The free database spins down/deletes after 90 days, and the web service spins down after inactivity.
-
-1.  **Push Code to GitHub**: Make sure your code is in a public/private GitHub repo.
-2.  **Create Web Service**: Connect your repo on [render.com](https://render.com).
-3.  **Environment**: Select **Docker**.
-4.  **Database**: Create a free **PostgreSQL** database on Render and link it (update `.env` variables in Render dashboard).
+5.  **Deploy**
+    - Click **Create Web Service**.
+    - Render will build your Docker image and deploy automatically.
 
 ---
 
-## Option 3: InfinityFree (Classic Shared Hosting)
+## Option 2: Fly.io (Alternative - Faster)
 
-**Best for:** "Old school" cPanel hosting.
-**Warning:** Harder with Laravel 12. requires modifying `public/.htaccess`.
+**Best for:** Performance, faster spin-up.
+**Requirement:** Credit card for verification.
 
-1.  **Build Locally**:
-    ```bash
-    npm run build
-    ```
-2.  **Upload Files**:
-    - Upload ALL files to the host (except `node_modules`).
-    - Move contents of `public/` to `htdocs/`.
-    - Move the rest of the app to a folder _outside_ `htdocs` (e.g., `laravel/`).
-    - Edit `htdocs/index.php` to point to the new paths:
-        ```php
-        require __DIR__.'/../laravel/vendor/autoload.php';
-        $app = require __DIR__.'/../laravel/bootstrap/app.php';
-        ```
-3.  **Database**:
-    - Export your local XAMPP database (phpMyAdmin -> Export).
-    - Import it to InfinityFree's MySQL.
-    - Update `.env` with InfinityFree's DB credentials.
+1.  **Install CLI**: `pwsh -Command "iwr https://fly.io/install.ps1 -useb | iex"`
+2.  **Launch**: `fly launch` (choose Dockerfile builder).
+3.  **Deploy**: `fly deploy`.
 
 ---
-
-## Recommendation
-
-**Go with Fly.io** if possible. It natively supports Laravel's modern features and gives you a professional URL (`https://rezcode-web.fly.dev`).
